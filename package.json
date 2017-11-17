@@ -1,0 +1,25 @@
+{
+  "name": "jest-simple-dot-reporter",
+  "version": "1.0.0",
+  "description": "A super simple jest dot reporter, great for use within shells like emacs ;)",
+  "main": "jest-simple-dot-reporter.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jodonnell/jest-simple-dot-reporter.git"
+  },
+  "keywords": [
+    "jest",
+    "simple",
+    "dot",
+    "reporter"
+  ],
+  "author": "Jacob O'Donnell",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jodonnell/jest-simple-dot-reporter/issues"
+  },
+  "homepage": "https://github.com/jodonnell/jest-simple-dot-reporter#readme"
+}
