@@ -41,8 +41,14 @@ class JestSimpleDotReporter {
         }
     }
 
-    onTestResult() {
-        process.stdout.write('.');
+    onTestResult(test, testResult) {
+        for (var i = 0; i < testResult.testResults.length; i++) {
+            if (testResult.testResults[i].status === 'passed') {
+                process.stdout.write('.');
+            } else {
+                process.stdout.write('F');
+            }
+        }
     }
 }
 
