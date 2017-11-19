@@ -45,6 +45,8 @@ class JestSimpleDotReporter {
         for (var i = 0; i < testResult.testResults.length; i++) {
             if (testResult.testResults[i].status === 'passed') {
                 process.stdout.write('.');
+            } else if (testResult.testResults[i].status === 'pending') {
+                process.stdout.write('*');
             } else {
                 process.stdout.write('F');
             }
