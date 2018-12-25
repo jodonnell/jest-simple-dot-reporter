@@ -19,9 +19,9 @@ For example, create a `jest.config.js` file containing:
 
 ```javascript
 module.exports = {
-  verbose: false,
-  reporters: [
-    'jest-simple-dot-reporter'
+  "verbose": false,
+  "reporters": [
+    ["jest-simple-dot-reporter", {"color": true}]
   ]
 };
 ```
