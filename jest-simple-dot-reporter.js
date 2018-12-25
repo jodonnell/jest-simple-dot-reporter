@@ -1,3 +1,5 @@
+const pluralize = (word, count) => `${count} ${word}${count === 1 ? '' : 's'}`;
+
 class JestSimpleDotReporter {
     constructor(globalConfig, options) {
         this._globalConfig = globalConfig;
@@ -25,6 +27,14 @@ class JestSimpleDotReporter {
                 console.log(failureMessage);
             }
         });
+
+        if (!results.snapshot.didUpdate && results.snapshot.unchecked) {
+            const obsoleteError = pluralize('obsolete snapshot', results.snapshot.unchecked) + ' found.';
+            if (this._options.color)
+                console.log(`\x1b[31m${obsoleteError}\x1b[0m`);
+            else
+                console.log(obsoleteError);
+        }
 
         console.log(`Ran ${numTotalTests} tests in ${testDuration()}`);
         process.stdout.write(` ${numPassedTests || 0} passing`);

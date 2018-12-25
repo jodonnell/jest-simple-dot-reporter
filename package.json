@@ -1,6 +1,6 @@
 {
   "name": "jest-simple-dot-reporter",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A super simple jest dot reporter, great for use within shells like emacs ;)",
   "main": "jest-simple-dot-reporter.js",
   "scripts": {
