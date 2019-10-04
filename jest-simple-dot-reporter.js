@@ -7,6 +7,9 @@ class JestSimpleDotReporter {
     }
 
     onRunStart(test) {
+        this._numTestSuitesLeft = test.numTotalTestSuites; 
+
+        console.log()
         console.log(`Found ${test.numTotalTestSuites} test suites`);
     }
 
@@ -59,6 +62,10 @@ class JestSimpleDotReporter {
             } else {
                 process.stdout.write('F');
             }
+        }
+
+        if (!--this._numTestSuitesLeft && this._globalConfig.collectCoverage) {
+            console.log()
         }
     }
 }
