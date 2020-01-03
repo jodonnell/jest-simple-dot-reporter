@@ -7,7 +7,9 @@ class JestSimpleDotReporter {
     }
 
     onRunStart(test) {
-        console.log();
+        this._numTestSuitesLeft = test.numTotalTestSuites; 
+
+        console.log()
         console.log(`Found ${test.numTotalTestSuites} test suites`);
     }
 
@@ -24,16 +26,16 @@ class JestSimpleDotReporter {
         console.log();
         testResults.map(({failureMessage}) => {
             if (failureMessage) {
-                console.log(failureMessage);
+                console.error(failureMessage);
             }
         });
 
         if (!results.snapshot.didUpdate && results.snapshot.unchecked) {
             const obsoleteError = pluralize('obsolete snapshot', results.snapshot.unchecked) + ' found.';
             if (this._options.color)
-                console.log(`\x1b[31m${obsoleteError}\x1b[0m`);
+                console.error(`\x1b[31m${obsoleteError}\x1b[0m`);
             else
-                console.log(obsoleteError);
+                console.error(obsoleteError);
         }
 
         console.log(`Ran ${numTotalTests} tests in ${testDuration()}`);
@@ -60,6 +62,10 @@ class JestSimpleDotReporter {
             } else {
                 process.stdout.write('F');
             }
+        }
+
+        if (!--this._numTestSuitesLeft && this._globalConfig.collectCoverage) {
+            console.log()
         }
     }
 }
