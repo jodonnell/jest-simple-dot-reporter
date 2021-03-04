@@ -55,22 +55,24 @@ class JestSimpleDotReporter {
     }
 
     onTestResult(test, testResult) {
-        for (var i = 0; i < testResult.testResults.length; i++) {
-            switch (testResult.testResults[i].status) {
-                case "passed":
-                    process.stdout.write('.');
-                    break;
-                case "pending":
-                case "todo":
-                    process.stdout.write('*');
-                    break;
-                case "failed":
-                    process.stdout.write('F');
-                    break;
-                default:
-                    process.stdout.write(`(${testResult.testResults[i].status})`);
+            for (var i = 0; i < testResult.testResults.length; i++) {
+                switch (testResult.testResults[i].status) {
+                    case "passed":
+                        process.stdout.write(".")
+                        break
+                    case "skipped":
+                    case "pending":
+                    case "todo":
+                    case "disabled":
+                        process.stdout.write("*")
+                        break
+                    case "failed":
+                        process.stdout.write("F")
+                        break
+                    default:
+                        process.stdout.write(`(${testResult.testResults[i].status})`)
+                }
             }
-        }
 
         if (!--this._numTestSuitesLeft && this._globalConfig.collectCoverage) {
             console.log()
