@@ -17,6 +17,7 @@ class JestSimpleDotReporter {
         const {
             numFailedTests,
             numPassedTests,
+            numTodoTests,
             numPendingTests,
             testResults,
             numTotalTests,
@@ -41,7 +42,7 @@ class JestSimpleDotReporter {
         console.log(`Ran ${numTotalTests} tests in ${testDuration()}`);
         process.stdout.write(` ${numPassedTests || 0} passing`);
         process.stdout.write(` ${numFailedTests || 0} failing`);
-        process.stdout.write(` ${numPendingTests || 0} pending`);
+        process.stdout.write(` ${(numTodoTests || 0) + (numPendingTests || 0)} skipped`);
         console.log();
 
         function testDuration() {
@@ -55,12 +56,19 @@ class JestSimpleDotReporter {
 
     onTestResult(test, testResult) {
         for (var i = 0; i < testResult.testResults.length; i++) {
-            if (testResult.testResults[i].status === 'passed') {
-                process.stdout.write('.');
-            } else if (testResult.testResults[i].status === 'pending') {
-                process.stdout.write('*');
-            } else {
-                process.stdout.write('F');
+            switch (testResult.testResults[i].status) {
+                case "passed":
+                    process.stdout.write('.');
+                    break;
+                case "pending":
+                case "todo":
+                    process.stdout.write('*');
+                    break;
+                case "failed":
+                    process.stdout.write('F');
+                    break;
+                default:
+                    process.stdout.write(`(${testResult.testResults[i].status})`);
             }
         }
 
