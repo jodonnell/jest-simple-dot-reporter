@@ -56,17 +56,29 @@ class JestSimpleDotReporter {
     onTestResult(test, testResult) {
         for (var i = 0; i < testResult.testResults.length; i++) {
             if (testResult.testResults[i].status === 'passed') {
-                process.stdout.write('.');
+                process.stdout.write(this.passed());
             } else if (testResult.testResults[i].status === 'pending') {
-                process.stdout.write('*');
+                process.stdout.write(this.pending());
             } else {
-                process.stdout.write('F');
+                process.stdout.write(this.failed());
             }
         }
 
         if (!--this._numTestSuitesLeft && this._globalConfig.collectCoverage) {
             console.log()
         }
+    }
+
+    passed() {
+        return this._options.color ? '\u001b[32m.\u001b[0m' : '.'
+    }
+
+    pending() {
+        return this._options.color ? '\u001b[36m*\u001b[0m' : '*'
+    }
+
+    failed() {
+        return this._options.color ? '\u001b[31mF\u001b[0m' : 'F'
     }
 }
 
