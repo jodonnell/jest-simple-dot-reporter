@@ -4,10 +4,11 @@ class JestSimpleDotReporter {
     constructor(globalConfig, options) {
         this._globalConfig = globalConfig;
         this._options = options;
+        this._counter = 0;
     }
 
     onRunStart(test) {
-        this._numTestSuitesLeft = test.numTotalTestSuites; 
+        this._numTestSuitesLeft = test.numTotalTestSuites;
 
         console.log()
         console.log(`Found ${test.numTotalTestSuites} test suites`);
@@ -55,24 +56,29 @@ class JestSimpleDotReporter {
     }
 
     onTestResult(test, testResult) {
-            for (var i = 0; i < testResult.testResults.length; i++) {
-                switch (testResult.testResults[i].status) {
-                    case "passed":
-                        process.stdout.write(".")
-                        break
-                    case "skipped":
-                    case "pending":
-                    case "todo":
-                    case "disabled":
-                        process.stdout.write("*")
-                        break
-                    case "failed":
-                        process.stdout.write("F")
-                        break
-                    default:
-                        process.stdout.write(`(${testResult.testResults[i].status})`)
-                }
+        for (var i = 0; i < testResult.testResults.length; i++) {
+            switch (testResult.testResults[i].status) {
+                case "passed":
+                    process.stdout.write(".")
+                    break
+                case "skipped":
+                case "pending":
+                case "todo":
+                case "disabled":
+                    process.stdout.write("*")
+                    break
+                case "failed":
+                    process.stdout.write("F")
+                    break
+                default:
+                    process.stdout.write(`(${testResult.testResults[i].status})`)
             }
+
+            this._counter++;
+            if (this._options.maxLength && this._counter % this._options.maxLength === 0) {
+                process.stdout.write("\n")
+            }
+        }
 
         if (!--this._numTestSuitesLeft && this._globalConfig.collectCoverage) {
             console.log()
